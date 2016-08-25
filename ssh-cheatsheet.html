@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <title>War Against Computers</title>
+        <meta charset="utf-8" />
+        <link href="alexcreek.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Full Atom Feed" />
+        <link href="alexcreek.com/feeds/system-administration.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Categories Atom Feed" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="../../favicon.ico">
+
+
+
+
+
+    <!-- Google web fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,900' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./theme/css/bootstrap.min.css" rel="stylesheet"> 
+
+    <!-- Custom styles for this template -->
+    <link href="./theme/css/starter-template.css" rel="stylesheet"> 
+    
+    <!-- Search CSS -->
+    <link rel="stylesheet" href="./theme/tipuesearch/tipuesearch.css"> 
+</head>
+
+ <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="./category/code.html">Code</a></li>
+                    <li><a href="./category/networking.html">Networking</a></li>
+                    <li class="active"><a href="./category/system-administration.html">System Administration</a></li>
+          </ul>
+<!--                <form id="searchform" action="/search.html" onsubmit="return (this.elements['q'].value.length > 0)">
+                    <div class="form-group">
+                        <input class="form-control" id="searchbox" type="text" name="q" size="12" placeholder="Search">
+                    </div>
+                </form> -->
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1 class="header"><a href="./">War Against Computers <strong></strong></a></h1>
+        </header><!-- /#banner -->
+
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="./ssh-cheatsheet.html" rel="bookmark"
+         title="Permalink to SSH Cheatsheet">SSH Cheatsheet</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <abbr class="published" title="2014-10-02T00:00:00-04:00">
+      Thu 02 October 2014
+    </abbr>
+    <address class="vcard author">
+      By           <a class="url fn" href="./author/alex.html">alex</a>
+    </address>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <h2>Forward a local port through an intermediary host to a remote host</h2>
+<p>Opens a shell on intermediary host and forwards a port to remote host through SSH's secure channel.  The forwarded port is accessible  on the local machine via localhost:port</p>
+<div class="highlight"><pre>ssh -L localport:remotehost:remoteport user@intermediary_host
+</pre></div>
+
+
+<h2>Execute a single command through an intermediary host onto a remote host</h2>
+<p>Netcat-like, doesn't open a shell on intermediary host.  Must use IP or FQDN for remote host</p>
+<div class="highlight"><pre>ssh -W remote_host:port user@intermediary_host
+</pre></div>
+
+
+<h2>Forward a local port to a remote host, accessible on local host</h2>
+<div class="highlight"><pre>ssh -L localport:remotehost:remoteport user@remotehost
+</pre></div>
+
+
+<p>Add the <code>-g</code> flag to make the local port acessible to other systems on the local LAN</p>
+<div class="highlight"><pre>ssh -g -L localport:remotehost:remoteport user@remotehost
+</pre></div>
+
+
+<h2>Forward a local port to a remote host, accessible on remote host; aka reverse shell</h2>
+<div class="highlight"><pre>ssh -R remoteport:localhost:localport user@remotehost
+</pre></div>
+
+
+<h2>Forward an internal port to a remote host, accessible on remote host</h2>
+<div class="highlight"><pre>ssh -R remoteport:host_on_internal_LAN:internalport user@remotehost
+</pre></div>
+
+
+<h2>Dynamic forward; aka SOCKS proxy</h2>
+<div class="highlight"><pre>ssh -D port user@remotehost
+</pre></div>
+
+
+<p>Use the <code>-N</code> flag to prevent opening a shell upon SSH connection</p>
+<div class="highlight"><pre>ssh -N -D port user@remotehost   
+</pre></div>
+
+
+<h2>Public SOCKS proxy</h2>
+<p>Again, use the <code>-g</code> flag to make the port (SOCKS proxy) accessible to other systems on the LAN (DANGEROUS)</p>
+<div class="highlight"><pre>ssh -g -D port user@remotehost
+</pre></div>
+
+
+<h2>Chain ssh sessions</h2>
+<p>Use the <code>-a</code> flag to disable agent forwarding then the <code>-t</code> flag to force a psuedo-tty</p>
+<div class="highlight"><pre>ssh -a -t user@host_1 <span class="s1">&#39;ssh user@host_2&#39;</span>
+</pre></div>
+
+
+<h2>Tunnel an ssh connection through an HTTP proxy</h2>
+<p>Using <code>proxy-connect</code>:</p>
+<div class="highlight"><pre>ssh -o <span class="nv">ProxyCommand</span><span class="o">=</span><span class="s1">&#39;connect -H proxyserver:proxyport sshserver sshport&#39;</span> user@sshserver
+</pre></div>
+
+
+<p>Using <code>corkscrew</code>:</p>
+<div class="highlight"><pre>ssh -o <span class="nv">ProxyCommand</span><span class="o">=</span><span class="s1">&#39;corkscrew proxyserver proxyport sshserver sshport&#39;</span> user@sshserver
+</pre></div>
+
+
+<h2>Send a file using SSH</h2>
+<div class="highlight"><pre>cat file.send <span class="p">|</span> ssh user@remoteserver <span class="s1">&#39;cat &gt; file.recieve&#39;</span>
+</pre></div>
+  </div><!-- /.entry-content -->
+</section>
+    </div>
+
+<script type="text/javascript">
+    var disqus_shortname = 'alexcreekcom';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+        
+        <footer id="contentinfo" class="container">
+                <address id="about" class="vcard body">
+                </br>Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+    
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-56063544-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+    
+</body>
+</html>

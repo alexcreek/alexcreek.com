@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>War Against Computers</title>
+        <meta charset="utf-8" />
+        <link href="alexcreek.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Full Atom Feed" />
+        <link href="alexcreek.com/feeds/code.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Categories Atom Feed" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="../../favicon.ico">
+
+    <!-- Google web fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,900' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../theme/css/bootstrap.min.css" rel="stylesheet"> 
+
+    <!-- Custom styles for this template -->
+    <link href="../theme/css/starter-template.css" rel="stylesheet"> 
+    
+    <!-- Search CSS -->
+    <link rel="stylesheet" href="../theme/tipuesearch/tipuesearch.css"> 
+</head>
+
+ <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><a href="../category/code.html">Code</a></li>
+                    <li><a href="../category/networking.html">Networking</a></li>
+                    <li><a href="../category/system-administration.html">System Administration</a></li>
+          </ul>
+<!--                <form id="searchform" action="/search.html" onsubmit="return (this.elements['q'].value.length > 0)">
+                    <div class="form-group">
+                        <input class="form-control" id="searchbox" type="text" name="q" size="12" placeholder="Search">
+                    </div>
+                </form> -->
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1 class="header"><a href="../">War Against Computers <strong></strong></a></h1>
+        </header><!-- /#banner -->
+
+<section id="content">
+<!-- <h2>Articles in the Code category</h2>
+ -->
+
+<ul id="post-list">
+        <li><article class="hentry">
+                <header> <h2 class="entry-title"><a href="../git-cheatsheet.html" rel="bookmark" title="Permalink to Git Cheatsheet">Git Cheatsheet</a></h2> </header>
+                <footer class="post-info">
+                    <abbr class="published" title="2014-10-25T00:00:00-04:00"> Sat 25 October 2014 </abbr>
+                    <address class="vcard author">By
+                        <a class="url fn" href="../author/alex.html">alex</a>
+                    </address>
+                </footer><!-- /.post-info -->
+                <div class="entry-content"> <h2>How to commit properly</h2>
+<p>Commit all files in the working tree that have been modified</p>
+<div class="highlight"><pre>git commit -am &#39;commit message&#39;
+</pre></div>
+
+
+<p>Commit a file individually</p>
+<div class="highlight"><pre>git commit filename -m &#39;commit message&#39;
+</pre></div>
+
+
+<h2>How not to commit</h2>
+<p>Only commit changes staged in the index, not all modified files</p>
+<div class="highlight"><pre>git commit -m &#39;commit message&#39;
+</pre></div>
+
+
+<h2>Remove ...</h2> </div><!-- /.entry-content -->
+        </article></li>
+        <li><article class="hentry">
+                <header> <h2 class="entry-title"><a href="../get-http-headers-using-php.html" rel="bookmark" title="Permalink to Get HTTP Headers Using PHP">Get HTTP Headers Using PHP</a></h2> </header>
+                <footer class="post-info">
+                    <abbr class="published" title="2014-10-03T00:00:00-04:00"> Fri 03 October 2014 </abbr>
+                    <address class="vcard author">By
+                        <a class="url fn" href="../author/alex.html">alex</a>
+                    </address>
+                </footer><!-- /.post-info -->
+                <div class="entry-content"> <p>The <code>getenv()</code> function is used to parse enviroment variables created by the webserver executing the php code, including HTTP Headers.  </p>
+<div class="highlight"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$client_ip</span> <span class="o">=</span> <span class="nb">getenv</span><span class="p">(</span><span class="s1">&#39;REMOTE_ADDR&#39;</span><span class="p">);</span>
+<span class="nv">$user_agent</span> <span class="o">=</span> <span class="nb">getenv</span><span class="p">(</span><span class="s1">&#39;HTTP_USER_AGENT&#39;</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="s2">&quot;Client IP: </span><span class="si">$client_ip</span><span class="s2">&lt;/br&gt;&quot;</span>
+<span class="k">echo</span> <span class="s2">&quot;User Agent: </span><span class="si">$user_agent</span><span class="s2">&lt;/br&gt;&quot;</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>Using conditional statements, the headers can be parsed and then actions taken based ...</p> </div><!-- /.entry-content -->
+        </article></li>
+        <li><article class="hentry">
+                <header> <h2 class="entry-title"><a href="../bash-oneliners.html" rel="bookmark" title="Permalink to Bash Oneliners">Bash Oneliners</a></h2> </header>
+                <footer class="post-info">
+                    <abbr class="published" title="2014-10-02T00:00:00-04:00"> Thu 02 October 2014 </abbr>
+                    <address class="vcard author">By
+                        <a class="url fn" href="../author/alex.html">alex</a>
+                    </address>
+                </footer><!-- /.post-info -->
+                <div class="entry-content"> <h2>Infinite while loops</h2>
+<div class="highlight"><pre><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="s2">&quot;It Never Ends&quot;</span><span class="p">;</span> <span class="k">done</span>
+</pre></div>
+
+
+<p>The key is the placement of the semicolons. </p>
+<div class="highlight"><pre><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span> <span class="o">((</span>x++<span class="o">))</span><span class="p">;</span> <span class="nb">echo</span> $x <span class="sb">`</span>date +%T<span class="sb">`</span><span class="p">;</span> <span class="k">done</span>
+<span class="k">while</span> true<span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="s2">&quot;Can you feel it?&quot;</span> <span class="p">|</span> mail -s <span class="s1">&#39;SMTP Test&#39;</span> admin@theHeazy.com<span class="p">;</span> <span class="k">done</span>
+</pre></div> </div><!-- /.entry-content -->
+        </article></li>
+        <li><article class="hentry">
+                <header> <h2 class="entry-title"><a href="../sed-tutorial.html" rel="bookmark" title="Permalink to Sed Tutorial">Sed Tutorial</a></h2> </header>
+                <footer class="post-info">
+                    <abbr class="published" title="2014-10-02T00:00:00-04:00"> Thu 02 October 2014 </abbr>
+                    <address class="vcard author">By
+                        <a class="url fn" href="../author/alex.html">alex</a>
+                    </address>
+                </footer><!-- /.post-info -->
+                <div class="entry-content"> <p>Sed's primary function is to search for and replace text; we call this process "substitution".  Additionally, sed can easily append, insert and delete text.  The syntax can be somewhat intimidating to the new user.</p>
+<div class="highlight"><pre>sed &#39;command/pattern/replacement/flags&#39; file.txt
+sed &#39;\pattern\|line_number command/input_text/&#39; file.txt
+</pre></div>
+
+
+<p>The ...</p> </div><!-- /.entry-content -->
+        </article></li>
+</ul><!-- /#posts-list -->
+</section><!-- /#content -->
+    </div>
+
+<script type="text/javascript">
+    var disqus_shortname = 'alexcreekcom';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+        
+        <footer id="contentinfo" class="container">
+                <address id="about" class="vcard body">
+                </br>Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../theme/js/bootstrap.min.js"></script>
+    
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-56063544-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+    
+</body>
+</html>

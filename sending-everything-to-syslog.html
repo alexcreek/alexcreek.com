@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <title>War Against Computers</title>
+        <meta charset="utf-8" />
+        <link href="alexcreek.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Full Atom Feed" />
+        <link href="alexcreek.com/feeds/system-administration.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Categories Atom Feed" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="../../favicon.ico">
+
+
+
+
+
+    <!-- Google web fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,900' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./theme/css/bootstrap.min.css" rel="stylesheet"> 
+
+    <!-- Custom styles for this template -->
+    <link href="./theme/css/starter-template.css" rel="stylesheet"> 
+    
+    <!-- Search CSS -->
+    <link rel="stylesheet" href="./theme/tipuesearch/tipuesearch.css"> 
+</head>
+
+ <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="./category/code.html">Code</a></li>
+                    <li><a href="./category/networking.html">Networking</a></li>
+                    <li class="active"><a href="./category/system-administration.html">System Administration</a></li>
+          </ul>
+<!--                <form id="searchform" action="/search.html" onsubmit="return (this.elements['q'].value.length > 0)">
+                    <div class="form-group">
+                        <input class="form-control" id="searchbox" type="text" name="q" size="12" placeholder="Search">
+                    </div>
+                </form> -->
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1 class="header"><a href="./">War Against Computers <strong></strong></a></h1>
+        </header><!-- /#banner -->
+
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="./sending-everything-to-syslog.html" rel="bookmark"
+         title="Permalink to Sending Everything to Syslog">Sending Everything to Syslog</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <abbr class="published" title="2016-01-29T23:29:29.871215-05:00">
+      Fri 29 January 2016
+    </abbr>
+    <address class="vcard author">
+      By           <a class="url fn" href="./author/alex.html">alex</a>
+    </address>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p>This is a running collection of syslog settings for various applications</p>
+<h2>Apache</h2>
+<p>Apache natively has the ability to send error logs to syslog, but if that method is used then the severity of each message is not uniform and searching is slightly more involved. By piping error logs to <code>logger</code> each message's severity can be standardized across the board.</p>
+<div class="highlight"><pre>LogFormat &quot;[%v] %h %l %u %t \&quot;%r\&quot; %&gt;s %b \&quot;%{Referer}i\&quot; \&quot;%{User-Agent}i\&quot;&quot; vhost_combined
+ErrorLog  &quot;|/usr/bin/logger -t httpd -p local1.error&quot; 
+
+<span class="nt">&lt;VirtualHost</span> <span class="err">*:port</span><span class="nt">&gt;</span>
+CustomLog &quot;|/usr/bin/logger -t httpd -p local1.info&quot; vhost_combined
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</pre></div>
+
+
+<h3>Searching:</h3>
+<div class="highlight"><pre>access logs   program:local1 AND severity:info AND message:vhost name
+error logs    program:local1 AND severity:error
+</pre></div>
+
+
+<h2>php-fpm</h2>
+<p>When using php-fpm (on CentOS 7) the <code>syslog.facility</code> and <code>syslog.ident</code> settings cannot be set individually per pool.  The desired facility must be set within <code>php-fpm.conf</code>.  <code>syslog.ident</code> has no effect on pools, only the main php-fpm process.  Pools are logged as the <code>journal</code> program and their pool name is included in the syslog message.  </p>
+<p>To enable consolidated searching of errors and access logs, the pool name would have the same name as the Apache virtual host that it's serving. </p>
+<p>in <code>php-fpm.conf</code></p>
+<div class="highlight"><pre>error_log = syslog
+syslog.facility = local1
+syslog.ident = php-fpm
+</pre></div>
+
+
+<!--
+ in `php-fpm.d/pool.conf`
+ ```
+ error_log = syslog
+ ```
+-->
+
+<h3>Searching:</h3>
+<div class="highlight"><pre>error logs    facility:local1 AND message:pool name
+</pre></div>
+
+
+<h2>mariadb/mysql</h2>
+<p>in <code>/etc/my.cnf</code></p>
+<div class="highlight"><pre><span class="k">[mysqld_safe]</span>
+<span class="err">syslog</span>
+</pre></div>
+
+
+<p>Messages will be logged as <code>mysqld</code> and <code>mysqld_safe</code></p>
+  </div><!-- /.entry-content -->
+</section>
+    </div>
+
+<script type="text/javascript">
+    var disqus_shortname = 'alexcreekcom';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+        
+        <footer id="contentinfo" class="container">
+                <address id="about" class="vcard body">
+                </br>Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+    
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-56063544-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+    
+</body>
+</html>

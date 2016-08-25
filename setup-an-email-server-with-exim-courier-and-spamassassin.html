@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <title>War Against Computers</title>
+        <meta charset="utf-8" />
+        <link href="alexcreek.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Full Atom Feed" />
+        <link href="alexcreek.com/feeds/system-administration.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Categories Atom Feed" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="../../favicon.ico">
+
+
+
+
+
+    <!-- Google web fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,900' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./theme/css/bootstrap.min.css" rel="stylesheet"> 
+
+    <!-- Custom styles for this template -->
+    <link href="./theme/css/starter-template.css" rel="stylesheet"> 
+    
+    <!-- Search CSS -->
+    <link rel="stylesheet" href="./theme/tipuesearch/tipuesearch.css"> 
+</head>
+
+ <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="./category/code.html">Code</a></li>
+                    <li><a href="./category/networking.html">Networking</a></li>
+                    <li class="active"><a href="./category/system-administration.html">System Administration</a></li>
+          </ul>
+<!--                <form id="searchform" action="/search.html" onsubmit="return (this.elements['q'].value.length > 0)">
+                    <div class="form-group">
+                        <input class="form-control" id="searchbox" type="text" name="q" size="12" placeholder="Search">
+                    </div>
+                </form> -->
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1 class="header"><a href="./">War Against Computers <strong></strong></a></h1>
+        </header><!-- /#banner -->
+
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="./setup-an-email-server-with-exim-courier-and-spamassassin.html" rel="bookmark"
+         title="Permalink to Setup an email server with exim courier and spamassassin">Setup an email server with exim courier and spamassassin</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <abbr class="published" title="2014-11-15T00:00:00-05:00">
+      Sat 15 November 2014
+    </abbr>
+    <address class="vcard author">
+      By           <a class="url fn" href="./author/alex.html">alex</a>
+    </address>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p></br>
+1. <a href="#Install_Exim">Install exim</a></br>
+2. <a href="#Install_Spamassasin">Install spamassassin</a></br>
+3. <a href="#Install_Courier">Install courier</a></br>
+</br></p>
+<p><a name="Install_Exim"></a></p>
+<h1>Exim</h1>
+<h3>1) Install exim</h3>
+<div class="highlight"><pre>sudo apt-get install exim4-daemon-heavy
+</pre></div>
+
+
+<h3>2) Configure</h3>
+<div class="highlight"><pre>sudo dpkg-reconfigure exim4-configure
+</pre></div>
+
+
+<h3>3) Harden</h3>
+<p>Reduce banner information</p>
+<div class="highlight"><pre>vi /etc/exim4/exim4.conf.template
+    # Add
+    smtp_banner = $smtp_active_hostname ESMTP    
+</pre></div>
+
+
+<p>If not required, disable ipv6</p>
+<div class="highlight"><pre>vi /etc/exim4/exim4.conf.template
+    # Add
+    disable_ipv6 = true   
+</pre></div>
+
+
+<h3>4) Enable and configure TLS communication</h3>
+<p>Generate a csr or self signed keys using <code>openssl</code> or <code>exim-gencert</code></p>
+<div class="highlight"><pre>sudo /usr/share/doc/exim4-base/examples/exim-gencert
+
+or
+
+sudo openssl req -x509 -nodes -newkey rsa -keyout exim.pem -out exim.pem -days 730
+</pre></div>
+
+
+<p>Enable TLS </p>
+<div class="highlight"><pre>vi /etc/exim4/exim4.conf.template
+    # Add
+    tls_on_connect_ports=465    
+    MAIN_TLS_ENABLE = yes
+
+    # Uncomment and/or modify
+    MAIN_TLS_CERTIFICATE = CONFDIR/exim.crt    
+    MAIN_TLS_PRIVATEKEY = CONFDIR/exim.key
+</pre></div>
+
+
+<div class="highlight"><pre>vi /etc/default/exim4
+    # Add
+    SMTPLISTENEROPTIONS=&#39;-oX 465:25 -oP /var/run/exim4/exim.pid&#39;
+</pre></div>
+
+
+<p>Enable SASL authentication and AUTH PLAIN LOGIN</p>
+<div class="highlight"><pre>vi /etc/exim4/exim4.conf.template
+    # Uncomment 
+     plain_saslauthd_server:
+       driver = plaintext
+       public_name = PLAIN
+       server_condition = ${if saslauthd{{$auth2}{$auth3}}{1}{0}}
+       server_set_id = $auth2
+       server_prompts = :
+       .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
+       server_advertise_condition = ${if eq{$tls_in_cipher}{}{}{*}}
+       .endif
+
+     login_saslauthd_server:
+       driver = plaintext
+       public_name = LOGIN
+       server_prompts = &quot;Username:: : Password::&quot;
+       server_condition = ${if saslauthd{{$auth1}{$auth2}}{1}{0}}
+       server_set_id = $auth1
+       .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
+       server_advertise_condition = ${if eq{$tls_in_cipher}{}{}{*}}
+       .endif
+</pre></div>
+
+
+<h3>5) Restart exim</h3>
+<div class="highlight"><pre>service exim4 restart
+</pre></div>
+
+
+<p><a name="Install_Spamassasin"></a></p>
+<h1>Spamassasin</h1>
+<h3>1) Install spamassassin</h3>
+<div class="highlight"><pre>sudo apt-get install spamassassin
+</pre></div>
+
+
+<h3>2) Enable</h3>
+<div class="highlight"><pre>vi /etc/default/spamassassin
+    # Modify
+    ENABLED=1
+    CRON=1
+</pre></div>
+
+
+<h3>3) Enable integration with exim</h3>
+<div class="highlight"><pre>vi /etc/exim4/exim4.conf.template
+    # Uncomment
+    spamd_address = 127.0.0.1 783
+</pre></div>
+
+
+<h3>4) Enable logging</h3>
+<div class="highlight"><pre>vi /etc/rsyslog.d/60-spamd.conf
+    # Add
+    :app-name, isequal, &quot;spamd&quot;     -/var/log/spam
+    &amp; ~
+</pre></div>
+
+
+<h3>5) Restart spamassassin</h3>
+<div class="highlight"><pre>service spamassassin restart
+</pre></div>
+
+
+<p><a name="Install_Courier"></a></p>
+<h1>Courier</h1>
+<h3>1) Install Courier and saslauthd</h3>
+<div class="highlight"><pre>sudo apt-get install courier-pop-ssl sasl2-bin
+</pre></div>
+
+
+<h3>2) Harden</h3>
+<p>Bind courier to an ipv4 address to disable listening on ipv6</p>
+<div class="highlight"><pre>vi /etc/courier/pop3d-ssl
+    # Modify
+    SSLADDRESS=server_ip_here
+</pre></div>
+
+
+<h3>2) Enable TLS</h3>
+<p>Generate a csr or self signed keys using <code>openssl</code> or <code>mkpop3dcert</code></p>
+<div class="highlight"><pre>sudo /usr/sbin/mkpop3dcert
+
+or
+
+sudo openssl req -x509 -nodes -newkey rsa -keyout my_domain_pop.pem -out my_domain_pop.pem -days 730
+</pre></div>
+
+
+<p>Add the certificate to courier's config</p>
+<div class="highlight"><pre>vi /etc/courier/pop3d-ssl
+    # Modify
+    TLS_CERTFILE=/etc/courier/my_domain_pop.pem
+</pre></div>
+
+
+<h3>3) Enable exim and saslauthd integration</h3>
+<p>Add the exim user to the saslauthd group</p>
+<div class="highlight"><pre>sudo usermod -a -G sasl Debian-exim
+</pre></div>
+
+
+<h3>4) Restart courier and exim</h3>
+<div class="highlight"><pre>sudo service exim4 restart
+sudo service courier-pop3d-ssl restart
+</pre></div>
+  </div><!-- /.entry-content -->
+</section>
+    </div>
+
+<script type="text/javascript">
+    var disqus_shortname = 'alexcreekcom';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+        
+        <footer id="contentinfo" class="container">
+                <address id="about" class="vcard body">
+                </br>Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+    
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-56063544-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+    
+</body>
+</html>

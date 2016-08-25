@@ -1,0 +1,88 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+ul, ol {
+  list-style-type: none;
+}
+#searchform { 
+  float: right; 
+  margin-top: 10px; 
+}
+
+#searchbox {
+    background-color: #F5F4EF;
+    border: 1px solid #F5F4EF;
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    height: 25px;
+    padding: 4px;
+    margin: 0px 15px;
+    vertical-align: top;
+}
+.entry-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 52px;
+  color: #000305;
+}
+.hentry {
+  background: rgba(250, 250, 250, 0.36);
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 1px;
+  box-shadow: 0 0 7px 0 #3F3F41;
+}
+.header {
+  font-family: 'Roboto', sans-serif;
+  font-size: 64px;
+  color: #000305;
+}
+a {
+  color: #000305;
+  font-weight: bold;
+}
+p {
+  color: #000305;
+  font-size: 20px;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  color: #000305;
+}
+pre {
+  font-size: 16px;
+}
+.navbar-nav {
+  font-size: 20px;
+}

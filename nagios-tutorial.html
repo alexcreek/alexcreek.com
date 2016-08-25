@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <title>War Against Computers</title>
+        <meta charset="utf-8" />
+        <link href="alexcreek.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Full Atom Feed" />
+        <link href="alexcreek.com/feeds/system-administration.atom.xml" type="application/atom+xml" rel="alternate" title="War Against Computers Categories Atom Feed" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="../../favicon.ico">
+
+
+
+
+
+    <!-- Google web fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,900' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./theme/css/bootstrap.min.css" rel="stylesheet"> 
+
+    <!-- Custom styles for this template -->
+    <link href="./theme/css/starter-template.css" rel="stylesheet"> 
+    
+    <!-- Search CSS -->
+    <link rel="stylesheet" href="./theme/tipuesearch/tipuesearch.css"> 
+</head>
+
+ <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="./category/code.html">Code</a></li>
+                    <li><a href="./category/networking.html">Networking</a></li>
+                    <li class="active"><a href="./category/system-administration.html">System Administration</a></li>
+          </ul>
+<!--                <form id="searchform" action="/search.html" onsubmit="return (this.elements['q'].value.length > 0)">
+                    <div class="form-group">
+                        <input class="form-control" id="searchbox" type="text" name="q" size="12" placeholder="Search">
+                    </div>
+                </form> -->
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1 class="header"><a href="./">War Against Computers <strong></strong></a></h1>
+        </header><!-- /#banner -->
+
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="./nagios-tutorial.html" rel="bookmark"
+         title="Permalink to Nagios Tutorial">Nagios Tutorial</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <abbr class="published" title="2014-10-02T00:00:00-04:00">
+      Thu 02 October 2014
+    </abbr>
+    <address class="vcard author">
+      By           <a class="url fn" href="./author/alex.html">alex</a>
+    </address>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <blockquote>
+<p>"Nagios is an open source computer system monitoring, network monitoring and infrastructure monitoring software application. Nagios offers monitoring and alerting services for servers, switches, applications, and services. It alerts the users when things go wrong and alerts them when the problem has been resolved." -- wikipedia</p>
+</blockquote>
+<p>Nagios is relatively easy to configure, given a proper understanding of the configuration system.  Nagios gets it's config by reading a series of .cfg files.  Settings are not restricted to a specific config files.  During runtime all of the files are combined and read together.  This can lead to confusion if a stray definition is located in a file that an admin forgot about.  This also means that you can have as many or as few config files as you want.   </p>
+<p>Nagios utilizes an inheritance system for assigning object's properties.  The inheritance is comprised of a hierarchy of templates, hostgroups and servicegroups.  The inheritance is similar to instances and classes in object oriented programming. </p>
+<div class="highlight"><pre>Host Creation
+Template --- templates.cfg
+       Host --- hostname.cfg
+
+Service Assignment &amp; Logical Grouping
+Hostgroup --- hostgroup-name.cfg
+Services
+        Host --- hostgroup-name.cfg or hostname.cfg
+
+Servicegroup --- servicegroup-name.cfg
+Services                              
+        Host --- hostgroup-name.cfg or hostname.cfg
+</pre></div>
+
+
+<p>The above diagram shows how hosts are created by referencing a host template in the templates.cfg file.  The diagram also shows how hostgroups and servicegroups are assigned services and then hosts are assigned to the respective groups.  Every host in a host/service group will inherit all of the services assigned to the group.  This saves the administrator from creating the same service definition in multiple host configuration files.  However, custom services should still be configured in the host file.</p>
+<div class="highlight"><pre>objects/servers/01-mail.cfg
+define host{
+        use                         linux-box
+        host_name                   mail.example.com
+        alias                       Email Server
+        address                     xxx.xxx.xxx.xxx
+        hostgroups                  mail.servers
+        }
+
+objects/templates.cfg
+define host{
+        name                        linux-box             
+        use                         generic-host 
+        check_period                24x7         
+        check_interval              5            
+        retry_interval              1                     
+        max_check_attempts          2   
+        check_command               check-host-alive 
+        notification_period         24x7         
+        notification_interval       20       
+        notification_options        w,d,u,r       
+        contact_groups              admins       
+        register                    0     ;defines this as a template
+        }
+</pre></div>
+
+
+<p>In the above example the use directive calls the linux-box template.  Nagios' inheritance system now gives mail.example.com all of the properties defined in the linux-box template.  You can see that the linux-box template uses the generic-host template to apply settings as well.</p>
+<div class="highlight"><pre>objects/servers/web-servers.cfg
+define service{
+        use                         generic-service
+        hostgroup_name              web.servers
+        service_description         HTTP
+        check_command               check_http
+        }  
+
+objects/templates.cfg
+define service{
+        name                        generic-service         
+        use                         local-service      
+        max_check_attempts          2                     
+        normal_check_interval       5                      
+        retry_check_interval        1                     
+        register                    0            
+        }      
+</pre></div>
+
+
+<p>This example show a service definition from the hostgroup config, web-servers.cfg.  This service uses the generic-service template which uses the local-service template which are both located in templates.cfg.  Every member of the web-servers.cfg hostgroup will now have the HTTP service associated with it. </p>
+<div class="highlight"><pre>objects/servers/web-servers.cfg
+define hostgroup{
+        hostgroup_name              web.servers
+        alias                       Web Servers            
+        members                     web.example.com
+        }
+
+objects/servers/02-web.cfg
+define host{
+        use                         linux-box
+        host_name                   web.example.com
+        alias                       Webserver
+        address                     xxx.xxx.xxx.xxx
+        hostgroups                  web.servers
+        }
+
+Objects/servers/all.cfg
+define hostgroup{
+        hostgroup_name              all
+        alias                       All
+        members                     *
+        }
+</pre></div>
+
+
+<p>Hostgroup membership is defined by the member directive in the hostgroup config.  Hostgroup membership can also be configured by using the hostgroups directive in the host config file .  The first method makes management much easier due to only having to edit a single file to change hostgroup membership.  To create a group that contains every host, instead of entering the name of each hosts enter a * wildcard.  Nagios interprets the wildcard to mean all hosts.  This is best used to assign a base set of services to every host.</p>
+<div class="highlight"><pre>define service{
+        use                         generic-service       
+        hostgroup_name              all
+        }
+
+service_description                 SSH
+        check_command               check_ssh!22
+        }
+
+define command{
+        command_name                check_ssh
+        command_line                $USER1$/check_ssh -p $ARG1$ $HOSTADDRESS$
+        }
+</pre></div>
+
+
+<p>Services ultimately rely on external commands that Nagios executes.   A service defines the command Nagios uses with the check_command directive.  The value of check_command must match a command definition that has been defined in commands.cfg .  Command definitions are used to create a name for Nagios to use for the command as well as a template for what options will be used with the command.  Understanding how to use a command is best accomplished by executing the actual script or executable found in nagios/libexec.  That will allow the admin to learn what switches and arguments will be best used for their specific requirement.  Once a suitable usage of the command has been identified and a command definition has been created arguments for the command are configured in the service definition by preceding the value with an exclamation point. </p>
+<p>Out of the box, Nagios is a powerful monitoring solution.  However it's true power lies in being able to understand it and configure it to suite the needs of a specific environment.  </p>
+  </div><!-- /.entry-content -->
+</section>
+    </div>
+
+<script type="text/javascript">
+    var disqus_shortname = 'alexcreekcom';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+        
+        <footer id="contentinfo" class="container">
+                <address id="about" class="vcard body">
+                </br>Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+    
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-56063544-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+    
+</body>
+</html>
