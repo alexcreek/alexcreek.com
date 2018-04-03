@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>War Against Computers</title><link href="alexcreek.com/" rel="alternate"></link><link href="alexcreek.com/feeds/code.atom.xml" rel="self"></link><id>alexcreek.com/</id><updated>2014-10-25T00:00:00-04:00</updated><entry><title>Git Cheatsheet</title><link href="alexcreek.com/git-cheatsheet.html" rel="alternate"></link><updated>2014-10-25T00:00:00-04:00</updated><author><name>alex</name></author><id>tag:,2014-10-25:alexcreek.com/git-cheatsheet.html</id><summary type="html">&lt;h2&gt;How to commit properly&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Stuff I Wanna Remember</title><link href="alexcreek.com/" rel="alternate"></link><link href="alexcreek.com/feeds/code.atom.xml" rel="self"></link><id>alexcreek.com/</id><updated>2014-10-25T00:00:00-04:00</updated><entry><title>Git Cheatsheet</title><link href="alexcreek.com/git-cheatsheet.html" rel="alternate"></link><updated>2014-10-25T00:00:00-04:00</updated><author><name>alex</name></author><id>tag:,2014-10-25:alexcreek.com/git-cheatsheet.html</id><summary type="html">&lt;h2&gt;How to commit properly&lt;/h2&gt;
 &lt;p&gt;Commit all files in the working tree that have been modified&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;git commit -am &amp;#39;commit message&amp;#39;
 &lt;/pre&gt;&lt;/div&gt;

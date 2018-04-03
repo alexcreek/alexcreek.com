@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>War Against Computers</title><link>alexcreek.com/</link><description></description><atom:link href="alexcreek.com/feeds/alex.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 01 Apr 2054 00:00:00 -0500</lastBuildDate><item><title>Apache SSL Configuration Snippets</title><link>alexcreek.com/apache-ssl-configuration-snippets.html</link><description>&lt;h2&gt;Certificates, Protocols and Options&lt;/h2&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stuff I Wanna Remember</title><link>alexcreek.com/</link><description></description><atom:link href="alexcreek.com/feeds/alex.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 01 Apr 2054 00:00:00 -0500</lastBuildDate><item><title>Apache SSL Configuration Snippets</title><link>alexcreek.com/apache-ssl-configuration-snippets.html</link><description>&lt;h2&gt;Certificates, Protocols and Options&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;SSLEngine on
 SSLCertificateFile /etc/apache2/ssl/cert.pem
 SSLCertificateKeyFile /etc/apache2/ssl/cert.pem
