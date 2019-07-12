@@ -6,10 +6,20 @@
     <description>Recent content in Posts on alexcreek.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 11 Jul 2019 23:27:37 -0400</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jul 2019 01:31:09 -0400</lastBuildDate>
     
 	<atom:link href="https://alexcreek.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Yum Upgrade Blog</title>
+      <link>https://alexcreek.com/posts/yum-upgrade-blog/</link>
+      <pubDate>Fri, 12 Jul 2019 01:31:09 -0400</pubDate>
+      
+      <guid>https://alexcreek.com/posts/yum-upgrade-blog/</guid>
+      <description>It&amp;rsquo;s finally time to update this space and consolidate my life. All the old stuff that was here is either in Evernote or if I thought it was slightly useful for anyone else, it&amp;rsquo;s in my gists.
+When I was freelancing, this started as a place to put useful stuff that I used more than once. That was quite some time ago, and I&amp;rsquo;ve since learned the difference between doing write ups and having a personal wiki that may or may not be correct AND will eventually suffer from bit rot and be a bad source of reference for others.</description>
+    </item>
     
     <item>
       <title>My First Post</title>
