@@ -8,7 +8,7 @@ When I was freelancing, this started as a place to put useful stuff that I used 
 
 So Look Out. I'm moving my medium posts here, all 2 of em, and will start posting tid-bits of information what will forever change your life.
 
-I've found that out of all the fancy mind-bending, eye-poppline content online, I really enjoy the old legacy sites from the early days, written in prefomatted html where the links are created by hand and there's no js sorcery, and yet they're still Insanely relevent. Those collections of sed and awk onliners you eventually find if you search hard enough are perfect examples...
+I've found that out of all the fancy mind-bending, eye-poppline content online, I really enjoy the old legacy sites from the early days, written in prefomatted html where the links are created by hand and there's no js sorcery, and yet they're still Insanely relevent. Those collections of sed and awk oneliners you eventually find if you search hard enough are perfect examples...
 
 * http://www.cs.utexas.edu/~cannata/cs345/Class%20Notes/01%20sed%20oneliners.html
 * https://www.pement.org/awk/awk1line.txt
