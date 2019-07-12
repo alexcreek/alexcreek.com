@@ -1,4 +1,4 @@
-baseURL = "http://alexcreek.com/"
+baseURL = "https://alexcreek.com/"
 languageCode = "en-us"
 title = "alexcreek.com"
 theme = "pickles"
