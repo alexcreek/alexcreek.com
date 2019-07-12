@@ -1,0 +1,5 @@
+baseURL = "http://alexcreek.com/"
+languageCode = "en-us"
+title = "alexcreek.com"
+theme = "pickles"
+publishDir = "docs"
