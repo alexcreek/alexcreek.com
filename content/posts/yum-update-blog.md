@@ -1,5 +1,5 @@
 ---
-title: "Yum Upgrade Blog"
+title: "Yum Update Blog"
 date: 2019-07-12T01:31:09-04:00
 ---
 It's finally time to update this space and consolidate my life.  All the old stuff that was here is either in Evernote or if I thought it was slightly useful for anyone else, it's in my [gists](https://gist.github.com/alexcreek).
