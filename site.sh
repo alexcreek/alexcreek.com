@@ -6,7 +6,8 @@ usage() {
 }
 
 if [[ "$#" -ne 1 ]]; then
-  usage
+  bundle exec jekyll build # build if no commands are provided
+  exit 0
 fi
 
 case "$1" in
@@ -17,7 +18,7 @@ case "$1" in
     bundle exec jekyll build
     ;;
   *)
-    echo "ERROR: option $1 unrecognized"
+    echo "ERROR: command $1 unrecognized"
     usage
     ;;
 esac
