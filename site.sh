@@ -6,7 +6,7 @@ usage() {
 }
 
 if [[ "$#" -ne 1 ]]; then
-  bundle exec jekyll build # build if no commands are provided
+  bundle exec jekyll serve # build if no commands are provided
   exit 0
 fi
 
