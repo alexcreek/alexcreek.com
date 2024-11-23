@@ -7,4 +7,3 @@ github_username:  alexcreek
 # Build settings
 theme: minima
 plugins:
-  - jekyll-feed
