@@ -4,6 +4,7 @@ url:  https://alexcreek.com
 domain: alexcreek.com
 github_username:  alexcreek
 
-# Build settings
 theme: minima
 plugins:
+minima:
+  skin: dark
